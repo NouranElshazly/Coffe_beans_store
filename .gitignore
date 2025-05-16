@@ -1,0 +1,17 @@
+.venv/
+# Python
+*.pyc
+__pycache__/
+db.sqlite3
+
+# Virtual env
+.venv/
+env/
+ENV/
+
+# Static and media (if generated)
+staticfiles/
+media/
+
+# VSCode
+.vscode/
