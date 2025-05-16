@@ -1,17 +1,22 @@
-.venv/
-# Python
-*.pyc
+# Python cache
 __pycache__/
-db.sqlite3
+*.py[cod]
 
-# Virtual env
+# SQLite DB
+*.sqlite3
+
+# Virtual environment
+venv/
 .venv/
 env/
-ENV/
 
-# Static and media (if generated)
+# Staticfiles & media
 staticfiles/
 media/
 
 # VSCode
 .vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
