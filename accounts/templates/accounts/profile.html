@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<title>{{ user.username }}'s Profile - Coffee Bean Store</title>
+<style>
+    .profile-section {
+        padding: 60px 0;
+        background-color: var(--latte-cream);
+    }
+
+    .profile-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+        background-color: var(--caramel);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+    }
+
+    .profile-avatar i {
+        font-size: 3rem;
+        color: white;
+    }
+
+    .profile-info h4 {
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .order-card {
+        border-left: 4px solid var(--caramel);
+        padding: 15px;
+        margin-bottom: 15px;
+        background: #f8f9fa;
+        border-radius: 0 8px 8px 0;
+        transition: transform 0.3s ease;
+    }
+
+    .order-card:hover {
+        transform: translateX(5px);
+    }
+
+    .edit-profile-btn {
+        background-color: var(--caramel);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .edit-profile-btn:hover {
+        background-color: #5a3f2d;
+        color: white;
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}
+
+{% block main_content %}
+<div class="profile-section">
+    <div class="container">
+        <!-- Profile Information -->
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="profile-info">
+                    <h4>{{ user.username }}</h4>
+                    <p class="text-muted mb-1">{{ user.email }}</p>
+                    <p class="text-muted mb-0">Member since: {{ user.date_joined|date:"F j, Y" }}</p>
+                </div>
+            </div>
+            
+            <div class="text-end">
+                <a href="{% url 'accounts:edit_profile' %}" class="edit-profile-btn">
+                    <i class="fas fa-edit me-2"></i>Edit Profile
+                </a>
+            </div>
+        </div>
+
+        <!-- Cart Items -->
+        {% if cart and cart.items.exists %}
+        <div class="profile-card">
+            <h4 class="mb-4">Current Cart</h4>
+            {% for item in cart.items.all %}
+            <div class="order-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1">{{ item.menu_item.name }}</h6>
+                        <p class="mb-0 text-muted">Quantity: {{ item.quantity }}</p>
+                    </div>
+                    <div class="text-end">
+                        <h6 class="mb-0">${{ item.get_cost }}</h6>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="text-center mt-4">
+                <a href="{% url 'cart:cart_detail' %}" class="btn btn-primary">View Cart</a>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Recent Orders -->
+        <div class="profile-card">
+            <h4 class="mb-4">Recent Orders</h4>
+            {% if orders %}
+                {% for order in orders %}
+                <div class="order-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1">Order #{{ order.id }}</h6>
+                            <p class="mb-0 text-muted">{{ order.created_at|date:"F j, Y" }}</p>
+                        </div>
+                        <div class="text-end">
+                            <h6 class="mb-1">${{ order.total_amount }}</h6>
+                            <span class="badge {% if order.status == 'completed' %}bg-success{% else %}bg-warning{% endif %}">
+                                {{ order.get_status_display }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center text-muted">No orders yet</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<title>Shopping Cart</title>
+<style>
+    .cart-item-image {
+        max-width: 100px;
+        height: auto;
+    }
+    .quantity-input {
+        width: 70px;
+    }
+</style>
+{% endblock %}
+
+{% block main_content %}
+<div class="container py-5">
+    <h1 class="mb-4">Shopping Cart</h1>
+    
+    {% if cart.items.all %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart.items.all %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="{{ item.menu_item.image.url }}" alt="{{ item.menu_item.name }}" class="cart-item-image me-3">
+                                <span>{{ item.menu_item.name }}</span>
+                            </div>
+                        </td>
+                        <td>${{ item.menu_item.price }}</td>
+                        <td>
+                            <form action="{% url 'cart:update_cart' item.id %}" method="post" class="d-flex align-items-center">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.menu_item.quantity }}" class="form-control quantity-input">
+                                <button type="submit" class="btn btn-sm btn-secondary ms-2">Update</button>
+                            </form>
+                        </td>
+                        <td>${{ item.get_cost }}</td>
+                        <td>
+                            <a href="{% url 'cart:remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Remove</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                        <td colspan="2"><strong>${{ cart.get_total_price }}</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{% url 'menu:list' %}" class="btn btn-secondary">Continue Shopping</a>
+            <a href="{% url 'checkout:checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
+        </div>
+    {% else %}
+        <div class="text-center py-5">
+            <h3>Your cart is empty</h3>
+            <a href="{% url 'menu:list' %}" class="btn btn-primary mt-3">Start Shopping</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<title>Edit Profile - Coffee Bean Store</title>
+<style>
+    .edit-profile-section {
+        padding: 80px 0;
+        background-color: var(--latte-cream);
+        min-height: calc(100vh - 200px);
+    }
+
+    .edit-profile-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        padding: 12px;
+        margin-bottom: 10px;
+    }
+
+    .form-control:focus {
+        border-color: var(--caramel);
+        box-shadow: 0 0 0 0.2rem rgba(111, 78, 55, 0.25);
+    }
+
+    .btn-primary {
+        background-color: var(--caramel);
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #5a3f2d;
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        transform: translateY(-2px);
+    }
+
+    .alert {
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #495057;
+        margin-bottom: 8px;
+    }
+
+    .text-danger {
+        font-size: 0.875rem;
+        margin-top: 5px;
+    }
+</style>
+{% endblock header %}
+
+{% block main_content %}
+<div class="edit-profile-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="edit-profile-card">
+                    <h2 class="mb-4">Edit Profile</h2>
+                    
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label class="form-label">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% if field.errors %}
+                                    <div class="text-danger">
+                                        {{ field.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'accounts:profile' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Profile
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main_content %}

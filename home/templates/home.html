@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main_content %}
+<!-- Coffee Break Section -->
+<section class="coffee-break-section" style="background-image: url('{% static "images/BEANS.jpg" %}');">
+    <div class="container">
+        <div class="coffee-break-content">
+            <h2>It's a <strong>Coffee Break</strong></h2>
+            <p class="lead-text">
+                If you drink coffee regularly you will know the difference between fresh coffee and old coffee. 
+                Our goal is provide the freshest coffee beans in each day.
+            </p>
+            <div class="action-buttons">
+                <a href="{% url 'menu:list' %}" class="btn">See our Menu</a>
+            </div>
+            <div class="divider-line"></div>
+            <div class="ratings">
+                <span class="stars">★★★★★</span>
+                <span class="rating-text">4.9 Overall Ratings from our Customers</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Best Sellers Section -->
+<section class="best-sellers">
+    <h2 id="sectiontitle">Our Best Sellers</h2>
+    <div class="product-grid">
+        {% for item in best_sellers %}
+        <div class="product-card">
+            {% if item.is_best_seller %}
+            <div class="product-badge">BEST</div>
+            {% endif %}
+            <div class="product-image-container">
+                {% if item.image %}
+                <img src="{{ item.image.url }}" alt="{{ item.name }}" class="product-image">
+                {% else %}
+                <img src="{% static 'images/espresso.png' %}" alt="Default Coffee" class="product-image">
+                {% endif %}
+            </div>
+            <div class="product-details">
+                <h3 class="product-title">{{ item.name }}</h3>
+                <p class="product-price">{{ item.price|floatformat:2 }}  JOD per 100g</p>
+                <div class="product-actions">
+                    <a href="{% url 'menu:detail' item.id %}" class="add-to-cart-btn">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No best sellers found</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Popular Products Section -->
+<section class="popular-products">
+    <div class="container">
+        <div class="section-header">
+            <h2>Our Popular Products</h2>
+            <p class="subtitle">
+                We always try to bring single origin from various regions with distinctive taste. 
+                That is intended for real coffee connoisseurs.
+            </p>
+            <div class="divider"></div>
+        </div>
+  
+        <div class="swiper productSwiper">
+            <div class="swiper-wrapper">
+                {% for item in popular_items %}
+                <div class="swiper-slide product-card">
+                     <div class="product-image">
+                        {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                        {% else %}
+                        <img src="{% static 'images/default-coffee.jpg' %}" alt="Default Coffee">
+                        {% endif %}
+                    </div>
+                    <div class="product-content">
+                        <h3>{{ item.name }}</h3>
+                        <p class="price"> {{ item.price|floatformat:2 }}  JOD <small>per 100g</small>
+                        </p>
+                        <a href="{% url 'menu:detail' item.id %}" class="add-to-cart">SEE MORE</a>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="swiper-slide">
+                    <p>No popular items available</p>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</section>
+
+<section class="about-section">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="section-header-about">
+      <span class="subtitle-about">Our Story</span>
+      <h2>Brewing Excellence Since 2010</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="about-content">
+      <!-- Image Column -->
+      <div class="about-image">
+        <img src="{% static 'images/coffefarmers.jpg' %}" alt="Coffee farmer holding beans" class="main-image">
+        <div class="experience-badge">
+          <span class="years">13+</span>
+          <span class="label">Years Experience</span>
+        </div>
+      </div>
+
+      <!-- Text Column -->
+      <div class="about-text">
+        <h3>From Bean to Cup: Our Journey</h3>
+        <p>
+          At Gittorio, we're passionate about connecting coffee lovers with the finest single-origin beans from sustainable farms 
+          across the world. What began as a small roastery in Portland has grown into a celebration of global coffee culture.
+        </p>
+
+        <div class="mission-points">
+          <div class="mission-item">
+            <div class="icon">
+              <img src="{% static 'images/coffee-beans.png' %}" alt="Coffee bean icon">
+            </div>
+            <div>
+              <h4>Direct Trade</h4>
+              <p>We work directly with farmers to ensure fair prices and premium quality</p>
+            </div>
+          </div>
+
+          <div class="mission-item">
+            <div class="icon">
+              <img src="{% static 'images/coffee-svgrepo-com.svg' %}" alt="Coffee roaster icon">
+            </div>
+            <div>
+              <h4>Artisan Roasting</h4>
+              <p>Small-batch roasted to highlight each bean's unique characteristics</p>
+            </div>
+          </div>
+
+          <div class="mission-item">
+            <div class="icon">
+              <img src="{% static 'images/search-svgrepo-com.svg' %}" alt="Community icon">
+            </div>
+            <div>
+              <h4>Community Focus</h4>
+              <p>Committed to educating and elevating local coffee culture</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="#our-team" class="btn btn-outline">Meet Our Team</a>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+
+
+{% endblock main_content %}
+ 

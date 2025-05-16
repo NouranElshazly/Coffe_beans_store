@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<title>About Us - Coffee Bean Store</title>
+<style>
+    .team-member-img {
+        height: 300px;
+        object-fit: cover;
+    }
+    .story-section {
+        background-color: #f8f9fa;
+    }
+    .timeline-item {
+        position: relative;
+        padding: 20px;
+        border-left: 2px solid #6F4E37;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock header %}
+
+{% block main_content %}
+<!-- Hero Section -->
+<div class="container-fluid py-5 bg-dark text-white text-center">
+    <h1 class="display-4">Our Story</h1>
+    <p class="lead">Crafting Perfect Coffee Since 2010</p>
+</div>
+
+<!-- Story Section -->
+<section class="story-section py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <img src="{% static 'images/aboutus.jpg' %}" alt="Our Coffee Journey" class="img-fluid rounded shadow-lg">
+            </div>
+            <div class="col-lg-6">
+                <h2 class="mb-4">Our Journey</h2>
+                <div class="timeline-item">
+                    <h5>2010 - The Beginning</h5>
+                    <p>Started as a small local roastery with a passion for quality coffee.</p>
+                </div>
+                <div class="timeline-item">
+                    <h5>2015 - Going Global</h5>
+                    <p>Began sourcing beans directly from sustainable farms worldwide.</p>
+                </div>
+                <div class="timeline-item">
+                    <h5>2020 - Excellence in Roasting</h5>
+                    <p>Established our state-of-the-art roasting facility.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Meet Our Team</h2>
+        <div class="row">
+            <!-- Team Member 1 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <img src="{% static 'images/young-man-roasting-coffee-factory.jpg' %}" class="card-img-top team-member-img"    alt="Team Member">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">John Smith</h5>
+                        <p class="card-text text-muted">Master Roaster</p>
+                        <p class="card-text">With over 15 years of experience in coffee roasting.</p>
+                        <div class="social-icons">
+                            <a href="#" class="text-dark me-2"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-dark me-2"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Member 2 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <img src="{% static 'images/coffee-factory-worker-showing-roasted-coffee-beans-camera.jpg' %}" class="card-img-top team-member-img"    alt="Team Member">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Sarah Johnson</h5>
+                        <p class="card-text text-muted">Coffee Sourcing Expert</p>
+                        <p class="card-text">Travels the world to find the perfect beans.</p>
+                        <div class="social-icons">
+                            <a href="#" class="text-dark me-2"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-dark me-2"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Member 3 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <img src="{% static 'images/mature-asian-man-apron-standing-coffee-roasting-equipment-checking-controls.jpg' %}" class="card-img-top team-member-img"   alt="Team Member">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Michael Chen</h5>
+                        <p class="card-text text-muted">Quality Control Specialist</p>
+                        <p class="card-text">Ensures every batch meets our high standards.</p>
+                        <div class="social-icons">
+                            <a href="#" class="text-dark me-2"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-dark me-2"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock main_content %}

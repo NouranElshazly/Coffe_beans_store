@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<title>Contact Us - Coffee Bean Store</title>
+<style>
+    .contact-hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("{% static 'images/contact-bg.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin-bottom: 4rem;
+    }
+
+    .contact-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        padding: 2rem;
+        height: 100%;
+        transition: transform 0.3s ease;
+    }
+
+    .contact-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .contact-icon {
+        width: 60px;
+        height: 60px;
+        background-color: var(--caramel);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .contact-icon i {
+        font-size: 24px;
+        color: white;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .social-links a {
+        width: 45px;
+        height: 45px;
+        background-color: var(--latte-cream);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--caramel);
+        transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+        background-color: var(--caramel);
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .map-container {
+        border-radius: 15px;
+        overflow: hidden;
+        height: 400px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .hours-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .hours-list li {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px dashed #eee;
+    }
+
+    .hours-list li:last-child {
+        border-bottom: none;
+    }
+</style>
+{% endblock %}
+
+{% block main_content %}
+<!-- Hero Section -->
+<div class="contact-hero">
+    <div class="text-center">
+        <h1 class="display-4 mb-3">Contact Us</h1>
+        <p class="lead">We'd Love to Connect with You</p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <!-- Contact Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="contact-card text-center">
+                <div class="contact-icon mx-auto">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h4>Visit Us</h4>
+                <p>123 Coffee Street<br>Amman, Jordan 11223</p>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="contact-card text-center">
+                <div class="contact-icon mx-auto">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <h4>Call Us</h4>
+                <p>+962 123 456 789<br>+962 987 654 321</p>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="contact-card text-center">
+                <div class="contact-icon mx-auto">
+                    <i class="far fa-clock"></i>
+                </div>
+                <h4>Opening Hours</h4>
+                <ul class="hours-list">
+                    <li><span>Monday - Friday</span> <span>8:00 - 22:00</span></li>
+                    <li><span>Saturday</span> <span>9:00 - 23:00</span></li>
+                    <li><span>Sunday</span> <span>9:00 - 22:00</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3384.7728426584!2d35.9101!3d31.9539!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDU3JzE0LjAiTiAzNcKwNTQnMzYuNCJF!5e0!3m2!1sen!2sjo!4v1234567890!5m2!1sen!2sjo" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Social Links -->
+    <div class="text-center mt-5">
+        <h3 class="mb-4">Connect With Us</h3>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </div>
+</div>
+{% endblock %}

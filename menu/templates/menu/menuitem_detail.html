@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ object.name }}{% endblock %}
+
+{% block  main_content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                {% if object.image %}
+                <img src="{{ object.image.url }}" class="card-img-top" alt="{{ object.name }}">
+                {% endif %}
+                
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h1 class="card-title">{{ object.name }}</h1>
+                            
+                        </div>
+                        <div>
+                            {% if object.is_best_seller %}
+                            <span class="badge bg-warning text-dark">
+                                <i class="fas fa-star"></i> Best Seller
+                            </span>
+                            {% endif %}
+                            <h3 class="  mt-2">JOD{{ object.price }}   <small class="text-size-2">per 100g</small></h3>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4>Description</h4>
+                        <p class="card-text">{{ object.description }}</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <h5>Inventory Status</h5>
+                        <div class="alert {% if object.quantity > 0 %}alert-success{% else %}alert-danger{% endif %}">
+                            {% if object.quantity > 0 %}
+                                {% if user.is_admin %}
+                                <i class="fas fa-check-circle"></i> {{ object.quantity }} available in stock
+                                {% else %}
+                                <i class="fas fa-check-circle"></i>  available in stock 
+                                {% endif %}
+                            {% else %}
+                            <i class="fas fa-exclamation-circle"></i> Currently out of stock
+                         
+                            {% endif %}
+                          
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'menu:list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Menu
+                        </a>
+                        {% if user == object.created_by or user.is_admin %}
+                        <div>
+                            <a href="{% url 'menu:update' object.pk %}" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a href="{% url 'menu:delete' object.pk %}" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main_content %}

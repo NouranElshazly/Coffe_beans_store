@@ -1,0 +1,297 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block header %}
+<title>Sign Up | Balete Coffee</title>
+<style>
+    :root {
+        --dark-roast: #1A120B;
+        --coffee-bean: #3C2A21;
+        --latte-cream: #E5E5CB;
+        --caramel: #D4A762;
+        --espresso: #5C3D2E;
+    }
+    
+    .signup-section {
+        background: linear-gradient(rgba(229, 229, 203, 0.9), rgba(229, 229, 203, 0.95)), 
+                    url('{% static "images/coffee-beans.png" %}');
+        background-size: cover;
+        background-position: center;
+        min-height: calc(100vh - 120px);
+        display: flex;
+        align-items: center;
+        padding: 2rem 0;
+
+    }
+    
+    .signup-card {
+         border-radius: 15px;
+        border: 2px solid var(--coffee-bean);
+        box-shadow: 0 10px 30px rgba(26, 18, 11, 0.3);
+        overflow: hidden;
+        max-width: 500px;
+        margin: 0 auto;
+        background: linear-gradient(rgba(229, 229, 203, 0.9), rgba(229, 229, 203, 0.95)), 
+        url('{% static "images/coffee-beans.png" %}');
+    }
+    
+    .signup-header {
+        background-color: var(--coffee-bean);
+        color: var(--latte-cream);
+        padding: 1.5rem;
+        text-align: center;
+        position: relative;
+    }
+    
+    .signup-header h2 {
+        font-weight: 700;
+        margin: 0;
+    }
+    
+    .signup-header:after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: var(--caramel);
+        margin: 10px auto 0;
+    }
+    
+    .signup-body {
+        padding: 2rem;
+    }
+    
+    .form-control {
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 2px solid var(--coffee-bean);
+        border-radius: 8px;
+        padding: 12px 15px;
+        transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+        border-color: var(--caramel);
+        box-shadow: 0 0 0 0.25rem rgba(212, 167, 98, 0.25);
+        background-color: white;
+    }
+    
+    .btn-signup {
+        background-color: var(--espresso);
+        border: none;
+        color: var(--latte-cream);
+        font-weight: 600;
+        padding: 12px;
+        border-radius: 8px;
+        transition: all 0.3s;
+        width: 100%;
+    }
+    
+    .btn-signup:hover {
+        background-color: var(--coffee-bean);
+        transform: translateY(-2px);
+    }
+    
+    .form-label {
+        color: var(--coffee-bean);
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+    
+    .alert-danger {
+        background-color: rgba(220, 53, 69, 0.9);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .coffee-icon {
+        font-size: 2.5rem;
+        color: var(--caramel);
+        margin-bottom: 1rem;
+    }
+    
+    .signup-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: var(--coffee-bean);
+    }
+    
+    .signup-footer a {
+        color: var(--espresso);
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    
+    .signup-footer a:hover {
+        color: var(--caramel);
+    }
+    
+    .password-strength {
+        margin-top: 0.5rem;
+        font-size: 0.85rem;
+        color: var(--coffee-bean);
+    }
+    
+    .strength-weak { color: #dc3545; }
+    .strength-medium { color: #fd7e14; }
+    .strength-strong { color: #28a745; }
+</style>
+{% endblock header %}
+
+{% block main_content %}
+<section class="signup-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="signup-card">
+                    <div class="signup-header">
+                        <h2><i class="fas fa-coffee me-2"></i>Create Account</h2>
+                    </div>
+                    
+                    <div class="signup-body">
+                        <form method="post" action="{% url 'accounts:signup' %}" novalidate>
+                            {% csrf_token %}
+                            
+                            {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <strong><i class="fas fa-exclamation-circle me-2"></i>Error:</strong> Please correct the errors below.
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <p class="mb-0">{{ error }}</p>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <p class="mb-0">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            
+                            <div class="mb-3">
+                                <label for="id_username" class="form-label">Username</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white"><i class="fas fa-user"></i></span>
+                                    <input type="text" name="username" class="form-control" id="id_username" 
+                                           placeholder="Choose a username" required
+                                           autocomplete="username" >
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="id_email" class="form-label">Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" name="email" class="form-control" id="id_email"  
+                                           placeholder="Your email address" required
+                                           autocomplete="email" >
+                                </div>
+
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="id_password1" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white"><i class="fas fa-lock"></i></span>
+                                    <input type="password" name="password1" class="form-control" id="id_password1" 
+                                           placeholder="Create a password" required 
+                                           autocomplete="new-password" >
+                                </div>
+                                <div class="password-strength">
+                                    <span id="strength-text">Password strength</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="id_password2" class="form-label">Confirm Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white"><i class="fas fa-lock"></i></span>
+                                    <input type="password" name="password2" class="form-control" id="id_password2" 
+                                           placeholder="Repeat your password" required
+                                           autocomplete="new-password">
+                                </div>
+                            </div>
+                            <div class="lable">
+                                <label for="id_user_type" class="form-label">User Type</label>
+                               <div class="dropdown">
+                                <select name="user_type" class="form-control" id="id_user_type">
+                                    <option value="customer">Customer</option>
+                                   
+                                </select>
+                               </div>
+                            </div>
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="terms-check" required>
+                                <label class="form-check-label" for="terms-check">
+                                    I agree to the <a href="#" style="color: var(--espresso);">Terms of Service</a> and <a href="#" style="color: var(--espresso);">Privacy Policy</a>
+                                </label>
+                            </div>
+                           
+                            
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="submit" class="btn btn-signup">
+                                    <i class="fas fa-user-plus me-2"></i>Create Account
+                                </button>
+                            </div>
+                            
+                            <div class="signup-footer">
+                                Already have an account? <a href="{% url 'accounts:login' %}">Sign in</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Password strength indicator
+        const passwordInput = document.getElementById('id_password1');
+        const strengthText = document.getElementById('strength-text');
+        
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            let strength = 0;
+            
+            // Length check
+            if (password.length >= 8) strength++;
+            if (password.length >= 12) strength++;
+            
+            // Complexity checks
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            // Update strength display
+            if (password.length === 0) {
+                strengthText.textContent = 'Password strength';
+                strengthText.className = 'password-strength';
+            } else if (strength <= 2) {
+                strengthText.textContent = 'Weak password';
+                strengthText.className = 'password-strength strength-weak';
+            } else if (strength <= 4) {
+                strengthText.textContent = 'Medium strength';
+                strengthText.className = 'password-strength strength-medium';
+            } else {
+                strengthText.textContent = 'Strong password';
+                strengthText.className = 'password-strength strength-strong';
+            }
+        });
+        
+        // Input animation
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.querySelector('.input-group-text').style.backgroundColor = 'var(--caramel)';
+                this.parentElement.querySelector('.input-group-text').style.color = 'white';
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.querySelector('.input-group-text').style.backgroundColor = '';
+                this.parentElement.querySelector('.input-group-text').style.color = '';
+            });
+        });
+    });
+</script>
+{% endblock main_content %}

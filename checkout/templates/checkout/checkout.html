@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<title>Checkout - Coffee Bean Store</title>
+<style>
+    .checkout-section {
+        padding: 60px 0;
+        background-color: var(--latte-cream);
+    }
+    .checkout-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+    .order-summary {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block main_content %}
+<div class="checkout-section">
+    <div class="container">
+        <div class="row">
+            <!-- Checkout Form -->
+            <div class="col-lg-8">
+                <div class="checkout-card">
+                    <h3 class="mb-4">Shipping Information</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" name="phone" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Shipping Address</label>
+                            <textarea name="address" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Place Order</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-lg-4">
+                <div class="checkout-card">
+                    <h4 class="mb-4">Order Summary</h4>
+                    <div class="order-summary">
+                        {% for item in cart.items.all %}
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>{{ item.menu_item.name }} × {{ item.quantity }}</span>
+                            <span>${{ item.get_cost }}</span>
+                        </div>
+                        {% endfor %}
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <strong>Total</strong>
+                            <strong>${{ cart.get_total_price }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

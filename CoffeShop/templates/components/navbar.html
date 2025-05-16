@@ -1,0 +1,290 @@
+{% load static %}
+<nav class="navbar">
+    <div class="nav-container">
+        <a class="nav-brand" href="#">
+            <img src="{% static 'images/coffee-beans.png' %}" alt="Coffee Beans Logo" width="40">
+            Coffee Beans
+        </a>
+        <button class="nav-toggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-menu">
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}" class="active">Home</a></li>
+                <li><a href="{% url 'menu:list' %}">Menu</a></li>
+                <li><a href="{% url 'aboutus:about_us' %}">About</a></li>
+                <li><a href="{% url 'contact:contact' %}">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="{% url 'cart:cart_detail' %}" class="cart-button">
+                    <i class="fas fa-shopping-cart"></i> Cart
+                    {% if user.is_authenticated and cart.get_total_items > 0 %}
+                        <span class="cart-count">{{ cart.get_total_items }}</span>
+                    {% endif %}
+                </a>
+                <div class="user-dropdown">
+                    <button class="user-toggle">
+                        <i class="fas fa-user"></i>
+                        {% if user.is_authenticated %}
+                            {{ user.username }} 
+                        {% else %}
+                            Account
+                        {% endif %}
+                        <i class="fas fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        {% if user.is_authenticated %}
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <div class="user-details">
+                                    <strong>{{ user.username }}</strong>
+                                    <span class="user-type">{{ user.get_user_type_display }}</span>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a href="{% url 'accounts:profile' %}" class="dropdown-item">
+                                <i class="fas fa-user-cog"></i> Profile
+                            </a>
+                            <a href="{% url 'cart:cart_detail' %}" class="dropdown-item">
+                                <i class="fas fa-shopping-bag"></i> My Orders
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <form action="{% url 'accounts:logout' %}" method="post" class="dropdown-item-form">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </form>
+                        {% else %}
+                            <a href="{% url 'accounts:login' %}" class="dropdown-item">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                            <a href="{% url 'accounts:signup' %}" class="dropdown-item">
+                                <i class="fas fa-user-plus"></i> Sign Up
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    // Mobile menu toggle
+    document.querySelector('.nav-toggle').addEventListener('click', () => {
+        document.querySelector('.nav-menu').classList.toggle('active');
+    });
+    
+    // User dropdown toggle
+    document.querySelector('.user-toggle').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelector('.dropdown-content').classList.toggle('show');
+    });
+    
+    // Close dropdown when clicking outside
+    window.addEventListener('click', (e) => {
+        if (!e.target.matches('.user-toggle')) {
+            const dropdowns = document.querySelectorAll('.dropdown-content');
+            dropdowns.forEach(dropdown => {
+                if (dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                }
+            });
+        }
+    });
+</script>
+
+<style>
+    /* Dropdown styles */
+    .user-dropdown {
+        position: relative;
+        display: inline-block;
+        color: var(--latte-cream);
+    }
+    
+    .user-toggle {
+        background: none;
+        border: none;
+        color: inherit;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 8px 12px;
+        font-size: 1rem;
+    }
+    
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background-color: #fff;
+        min-width: 220px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        z-index: 1000;
+        padding: 8px 0;
+        margin-top: 10px;
+    }
+    
+    .dropdown-content.show {
+        display: block;
+        animation: dropdownFade 0.2s ease;
+    }
+    
+    @keyframes dropdownFade {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .dropdown-content a {
+        color: #333;
+        text-decoration: none;
+        display: block;
+    }
+    
+    .dropdown-content a:hover {
+        background-color: #f5f5f5;
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        background-color: var(--caramel);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+    }
+    
+    .user-avatar i {
+        color: white;
+        font-size: 1.5rem;
+    }
+    
+    .user-details {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .user-details strong {
+        color: #333;
+        font-size: 0.95rem;
+    }
+    
+    .user-type {
+        color: #666;
+        font-size: 0.8rem;
+        margin-top: 2px;
+    }
+    
+    .dropdown-divider {
+        height: 1px;
+        background-color: rgba(0,0,0,0.1);
+        margin: 8px 0;
+    }
+    
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 16px;
+        color: #333;
+        text-decoration: none;
+        transition: background-color 0.2s;
+    }
+    
+    .dropdown-item i {
+        width: 20px;
+        margin-right: 8px;
+        color: var(--caramel);
+    }
+    
+    .dropdown-item:hover {
+        background-color: rgba(0,0,0,0.05);
+    }
+    
+    .dropdown-item-form {
+        margin: 0;
+    }
+    
+    .dropdown-item-form button {
+        width: 100%;
+        text-align: left;
+        background: none;
+        border: none;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        color: #dc3545;
+        cursor: pointer;
+    }
+    
+    .dropdown-item-form button:hover {
+        background-color: rgba(220,53,69,0.1);
+    }
+    
+    .dropdown-item-form button i {
+        width: 20px;
+        margin-right: 8px;
+    }
+    
+    /* Existing nav styles */
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    #logout-button {
+        background: none;
+        border: none;
+        color: black;
+        cursor: pointer;
+        margin-left: 10px;
+        align-items: center;
+    }
+    .cart-button {
+        color: var(--latte-cream);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        position: relative;
+    }
+
+    .cart-button:hover {
+        color: var(--caramel);
+    }
+
+    .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: var(--caramel);
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 0.75rem;
+        min-width: 18px;
+        text-align: center;
+    }
+</style>
