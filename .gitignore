@@ -1,22 +1,21 @@
-# Python cache
-__pycache__/
-*.py[cod]
-
-# SQLite DB
-*.sqlite3
-
-# Virtual environment
+# Virtual environments
 venv/
 .venv/
-env/
 
-# Staticfiles & media
-staticfiles/
+# Django media & static
 media/
+staticfiles/
 
-# VSCode
+# SQLite database
+*.sqlite3
+
+# IDEs
 .vscode/
+.idea/
 
-# OS files
-.DS_Store
-Thumbs.db
+# Pycache
+__pycache__/
+*.pyc
+
+# Migration backups
+*.log
