@@ -1,0 +1,13 @@
+{
+    "build": {
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    "deploy": {
+      "commands": [
+        "python manage.py migrate"
+      ]
+    }
+  }
+  
