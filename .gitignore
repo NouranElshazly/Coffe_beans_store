@@ -6,8 +6,8 @@ venv/
 media/
 staticfiles/
 
-# SQLite database
-*.sqlite3
+ 
+ 
 
 # IDEs
 .vscode/
